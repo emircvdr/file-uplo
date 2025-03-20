@@ -18,7 +18,7 @@ createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
       <PrimeReactProvider>
         <Routes>
-          <Route path="/" element={<Navigate to="/upload" />} />
+          <Route path="/" element={<Navigate to="/upload?modul=&firmaGuid=&fisTurId=&satirGuid=" />} />
           <Route path="/upload" element={<App />} />
         </Routes>
       </PrimeReactProvider>
