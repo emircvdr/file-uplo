@@ -49,10 +49,10 @@ export default function App() {
         window.parent.postMessage(
           {
             status: 'success',
-            message: result.message || 'Dosya başarıyla yüklendi',
-            fileName: result.filename,
-            originalName: result.originalName,
-            url: result.url
+            message: result.data.message || 'Dosya başarıyla yüklendi',
+            fileName: result.data.filename,
+            originalName: result.data.originalName,
+            url: result.data.url
           },
           '*'
         );
