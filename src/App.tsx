@@ -52,7 +52,8 @@ export default function App() {
             message: result.data.message || 'Dosya başarıyla yüklendi',
             fileName: result.data.filename,
             originalName: result.data.originalName,
-            url: result.data.url
+            url: result.data.url,
+            mimeType: result.data.mimeType
           },
           '*'
         );
@@ -219,7 +220,7 @@ export default function App() {
       <FileUpload
         ref={fileUploadRef}
         multiple
-        accept=",application/pdf"
+        accept="image/*,application/pdf"
         maxFileSize={100000000}
         auto={false} // Disable auto upload
         onSelect={onTemplateSelect}
