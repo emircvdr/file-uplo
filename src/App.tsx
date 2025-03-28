@@ -43,7 +43,7 @@ export default function App() {
       const result = await response.json(); // JSON olarak parse et
 
       if (response.ok && result.success) {
-        toast.current?.show({ severity: 'success', summary: 'Success', detail: 'File Uploaded Successfully' });
+        toast.current?.show({ severity: 'success', summary: 'Success', detail: 'Dosya başarıyla yüklendi' });
 
         // Üst sayfaya mesaj gönder (fileName olarak filename gönderdik)
         window.parent.postMessage(
@@ -101,14 +101,15 @@ export default function App() {
   };
 
   const headerTemplate = (options: FileUploadHeaderTemplateOptions) => {
-    const { className, chooseButton, cancelButton } = options;
+    const { className, chooseButton, cancelButton, uploadButton } = options;
     const value = totalSize / 10000;
     const formattedValue = fileUploadRef.current ? fileUploadRef.current.formatSize(totalSize) : '0 B';
 
     return (
       <div className={className} style={{ backgroundColor: 'transparent', display: 'flex', alignItems: 'center' }}>
         {chooseButton}
-        <Button
+        {uploadButton}
+        {/* <Button
           icon="pi pi-fw pi-cloud-upload"
           className="p-button-success p-button-rounded p-button-outlined"
           onClick={() => {
@@ -124,7 +125,7 @@ export default function App() {
             }
           }}
           disabled={fileUploadRef.current?.getFiles().length === 0}
-        />
+        /> */}
         {cancelButton}
         <div className="flex align-items-center gap-3 ml-auto">
           <span>{formattedValue} / 100 MB</span>
@@ -203,9 +204,43 @@ export default function App() {
     );
   };
 
-  const chooseOptions = { icon: 'pi pi-fw pi-images', iconOnly: true, className: 'custom-choose-btn p-button-rounded p-button-outlined', };
-  const uploadOptions = { icon: 'pi pi-fw pi-cloud-upload', iconOnly: true, className: 'custom-upload-btn p-button-success p-button-rounded p-button-outlined' };
-  const cancelOptions = { icon: 'pi pi-fw pi-times', iconOnly: true, className: 'custom-cancel-btn p-button-danger p-button-rounded p-button-outlined' };
+  const chooseOptions = {
+    label: 'Dosya Seçin',
+    style: {
+      backgroundColor: '#eff6ff',
+      borderColor: '#2563eb',
+      color: '#1d4ed8',
+      textTransform: 'capitalize',
+      transition: 'all 0.2s ease',
+      cursor: 'pointer',
+      fontSize: '0.8rem'
+    },
+
+  };
+  const uploadOptions = {
+    label: 'Dosyayı Yükle',
+    style: {
+      backgroundColor: '#f0fdf4',
+      borderColor: '#16a34a',
+      color: '#15803d',
+      textTransform: 'capitalize',
+      transition: 'all 0.2s ease',
+      cursor: 'pointer',
+      fontSize: '0.8rem'
+    }
+  };
+  const cancelOptions = {
+    label: 'Dosyayı Temizle',
+    style: {
+      backgroundColor: '#fef2f2',
+      borderColor: '#dc2626',
+      color: '#b91c1c',
+      textTransform: 'capitalize',
+      transition: 'all 0.2s ease',
+      cursor: 'pointer',
+      fontSize: '0.8rem'
+    }
+  };
 
 
 
@@ -219,13 +254,15 @@ export default function App() {
 
       <FileUpload
         ref={fileUploadRef}
-        multiple
+        url={(`${import.meta.env.VITE_API_ENDPOINT}api/uploads`)}
         accept="image/*,application/pdf"
         maxFileSize={100000000}
-        auto={false} // Disable auto upload
+        auto={false} // Disable auto uploa
         onSelect={onTemplateSelect}
         onError={onTemplateClear}
         onClear={onTemplateClear}
+        customUpload
+        uploadHandler={handleUploadFile}
         headerTemplate={headerTemplate}
         itemTemplate={itemTemplate}
         emptyTemplate={emptyTemplate}
