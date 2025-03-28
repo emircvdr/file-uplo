@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { Toast } from 'primereact/toast';
-import { FileUpload, FileUploadHeaderTemplateOptions, FileUploadSelectEvent, FileUploadUploadEvent, ItemTemplateOptions } from 'primereact/fileupload';
+import { FileUpload, FileUploadHeaderTemplateOptions, FileUploadOptions, FileUploadSelectEvent, FileUploadUploadEvent, ItemTemplateOptions } from 'primereact/fileupload';
 import { ProgressBar } from 'primereact/progressbar';
 import { Button } from 'primereact/button';
 import { Tooltip } from 'primereact/tooltip';
@@ -109,23 +109,6 @@ export default function App() {
       <div className={className} style={{ backgroundColor: 'transparent', display: 'flex', alignItems: 'center' }}>
         {chooseButton}
         {uploadButton}
-        {/* <Button
-          icon="pi pi-fw pi-cloud-upload"
-          className="p-button-success p-button-rounded p-button-outlined"
-          onClick={() => {
-            const files = fileUploadRef.current?.getFiles() || [];
-            if (files.length > 0) {
-              handleUploadFile({ files, xhr: new XMLHttpRequest() }); // Pass files and xhr to match FileUploadUploadEvent
-            } else {
-              toast.current?.show({
-                severity: 'warn',
-                summary: 'Warning',
-                detail: 'Please select a file first'
-              });
-            }
-          }}
-          disabled={fileUploadRef.current?.getFiles().length === 0}
-        /> */}
         {cancelButton}
         <div className="flex align-items-center gap-3 ml-auto">
           <span>{formattedValue} / 100 MB</span>
@@ -262,13 +245,14 @@ export default function App() {
         onError={onTemplateClear}
         onClear={onTemplateClear}
         customUpload
-        uploadHandler={handleUploadFile}
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        uploadHandler={handleUploadFile as any}
         headerTemplate={headerTemplate}
         itemTemplate={itemTemplate}
         emptyTemplate={emptyTemplate}
-        chooseOptions={chooseOptions}
-        uploadOptions={uploadOptions}
-        cancelOptions={cancelOptions}
+        chooseOptions={chooseOptions as FileUploadOptions}
+        uploadOptions={uploadOptions as FileUploadOptions}
+        cancelOptions={cancelOptions as FileUploadOptions}
       />
 
       {pdfUrl && (
