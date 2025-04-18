@@ -34,11 +34,13 @@ export default function App() {
       formData.append('fisTurId', fisTurId || '');
       formData.append('file', e.files[0]);
       formData.append('satirGuid', satirGuid || '');
-
+      formData.append('fileSize', e.files[0].size.toString());
       const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}api/uploads`, {
         method: 'POST',
         body: formData
       });
+
+      console.log(response);
 
       const result = await response.json(); // JSON olarak parse et
 
@@ -53,7 +55,8 @@ export default function App() {
             fileName: result.data.filename,
             originalName: result.data.originalName,
             url: result.data.url,
-            mimeType: result.data.mimeType
+            mimeType: result.data.mimeType,
+            size: result.data.size
           },
           '*'
         );
